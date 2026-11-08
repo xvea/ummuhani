@@ -48,3 +48,14 @@ body {
   background: var(--color-surface);
   color: var(--color-ink);
 }
+
+/* Cetak tiket Kiosk ke printer thermal 58 mm */
+@media print {
+  @page {
+    size: 58mm auto;
+    margin: 0;
+  }
+  body {
+    background: white;
+  }
+}

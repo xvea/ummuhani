@@ -2,8 +2,11 @@
 
 import { io, type Socket } from "socket.io-client";
 
-/** Alamat Socket.io Backend. Diatur di .env.local (NEXT_PUBLIC_SOCKET_URL). */
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL ?? "http://localhost:3001";
+/**
+ * Alamat Socket.io. Kosong = alamat Frontend yang sama (diteruskan ke Backend oleh
+ * rewrites di next.config.ts / Nginx). Isi NEXT_PUBLIC_SOCKET_URL hanya jika perlu.
+ */
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 
 let socket: Socket | null = null;
 
@@ -13,7 +16,8 @@ let socket: Socket | null = null;
  */
 export function getSocket(): Socket {
   if (!socket) {
-    socket = io(SOCKET_URL, { transports: ["websocket", "polling"] });
+    // Transport bawaan Socket.io: mulai dengan polling lalu otomatis naik ke WebSocket.
+    socket = SOCKET_URL ? io(SOCKET_URL) : io();
   }
   return socket;
 }

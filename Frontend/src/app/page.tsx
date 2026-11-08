@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/Logo";
  * Saat deployment, tiap perangkat langsung membuka URL-nya sendiri (SDD Bab 9).
  */
 const pages = [
-  { href: "/kiosk", title: "Kiosk Ambil Tiket", desc: "Pasien memilih BPJS/UMUM lalu poli", acuan: "FR-02", ready: false },
+  { href: "/kiosk", title: "Kiosk Ambil Tiket", desc: "Pasien memilih BPJS/UMUM lalu poli", acuan: "FR-02", ready: true },
   { href: "/display", title: "Display Ruang Tunggu", desc: "Nomor dipanggil + nomor loket, suara TTS", acuan: "FR-04, FR-05", ready: false },
   { href: "/login", title: "Login Petugas & Admin", desc: "Masuk sesuai role", acuan: "FR-01", ready: false },
   { href: "/dashboard", title: "Dashboard Petugas & Admin", desc: "Panel Loket, Pendaftaran, Admin", acuan: "FR-03, FR-06–FR-08", ready: false },

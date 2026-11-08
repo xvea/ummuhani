@@ -1,10 +1,16 @@
 import type { ApiResponse } from "./types";
 
 /**
- * Alamat Backend. Diatur di file .env.local (NEXT_PUBLIC_API_URL).
+ * Alamat Backend.
+ * - Di browser: kosong = alamat Frontend yang sama (/api/... diteruskan ke Backend oleh
+ *   rewrites di next.config.ts atau Nginx). Isi NEXT_PUBLIC_API_URL hanya jika perlu.
+ * - Di server Next.js (SSR, misalnya Kiosk memuat daftar poli): BACKEND_URL di .env.local.
  * Saat integrasi ke server RS, cukup ganti nilai di .env, tidak perlu ubah kode.
  */
-export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+function baseUrl() {
+  if (typeof window === "undefined") return process.env.BACKEND_URL ?? "http://localhost:3001";
+  return process.env.NEXT_PUBLIC_API_URL ?? "";
+}
 
 export class ApiError extends Error {
   status: number;
@@ -30,7 +36,7 @@ type RequestOptions = {
  */
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = "GET", body, token } = options;
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${baseUrl()}${path}`, {
     method,
     headers: {
       "Content-Type": "application/json",
