@@ -1,0 +1,28 @@
+# Dependensi (diinstal ulang lewat pnpm install / npm install)
+node_modules/
+
+# Rahasia dan konfigurasi lokal - JANGAN di-commit
+.env
+.env.local
+.env.*.local
+
+# Hasil build dan cache
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Log dan file sistem
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Pengaturan editor pribadi
+.vscode/*
+!.vscode/extensions.json
+.idea/

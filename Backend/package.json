@@ -1,0 +1,39 @@
+{
+  "name": "rs-ummu-hani-queue-backend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Backend Sistem Antrian RS Ummu Hani - mengikuti backlog detail US-001 s.d. US-043",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test",
+    "test:syntax": "node scripts/check-syntax.js",
+    "prisma:generate": "prisma generate",
+    "prisma:format": "prisma format",
+    "prisma:validate": "prisma validate",
+    "prisma:pull": "prisma db pull",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "db:objects": "node scripts/apply-db-objects.js",
+    "db:seed": "node scripts/seed.js",
+    "admin:create": "node scripts/create-admin.js",
+    "postman:info": "node -e \"console.log('Import postman/RS-Ummu-Hani-Backend.postman_collection.json in Postman')\""
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "prisma": "^6.16.2"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}

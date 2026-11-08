@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  login       String  @id @db.VarChar(50)
+  password    String  @db.VarChar(250)
+  grupuser    String  @db.VarChar(50)
+  namalengkap String  @db.VarChar(50)
+  poli        String? @db.VarChar(50)
+  token       String? @db.VarChar(255)
+
+  @@map("User")
+}
+
+model Poli {
+  kode_poli   String @id @db.VarChar(20)
+  poli        String @db.VarChar(100)
+  aktifonline Int    @db.TinyInt
+  deskripsi   String? @db.VarChar(150)
+
+  pendaftaran Pendaftaran[]
+
+  @@map("Poli")
+}
+
+model Pasien {
+  norm     String    @id @db.VarChar(50)
+  nama     String    @db.VarChar(200)
+  alamat   String?   @db.VarChar(200)
+  telp     String?   @db.VarChar(30)
+  tgllahir DateTime? @db.Date
+
+  pendaftaran Pendaftaran[]
+
+  @@map("Pasien")
+}
+
+model Dokter {
+  kodedokter  String @id @db.VarChar(50)
+  namadokter  String @db.VarChar(40)
+  spesialisasi String? @db.VarChar(30)
+  aktif       Int    @db.TinyInt
+
+  pendaftaran Pendaftaran[]
+
+  @@map("Dokter")
+}
+
+model Pendaftaran {
+  noindex            Int      @id @default(autoincrement())
+  tiketreg           String   @db.VarChar(50)
+  noantripoli        Int
+  tanggalberobat     DateTime @db.Date
+  norm               String?  @db.VarChar(50)
+  poli               String?  @db.VarChar(20)
+  dokter             String?  @db.VarChar(50)
+  jamdatang          String?  @db.VarChar(50)
+  jenisantrian       String?  @db.VarChar(50)
+  status_pendaftaran String   @db.VarChar(30)
+
+  pasien  Pasien? @relation(fields: [norm], references: [norm], onUpdate: NoAction, onDelete: NoAction)
+  poliRef Poli?   @relation(fields: [poli], references: [kode_poli], onUpdate: NoAction, onDelete: NoAction)
+  dokterRef Dokter? @relation(fields: [dokter], references: [kodedokter], onUpdate: NoAction, onDelete: NoAction)
+  task    TaskAntrian?
+
+  // tiketreg boleh berulang di tanggal berbeda (misal A-01 setiap hari),
+  // tetapi tetap unik dalam satu hari agar histori tidak perlu dihapus.
+  @@unique([tiketreg, tanggalberobat])
+  @@index([tanggalberobat, poli, noantripoli])
+  @@index([tanggalberobat, poli, status_pendaftaran])
+  @@index([norm])
+  @@index([dokter])
+  @@map("Pendaftaran")
+}
+
+model TaskAntrian {
+  kodebooking String   @db.VarChar(50)
+  tanggal     DateTime @db.Date
+  task1       DateTime?
+  task2       DateTime?
+  task3       DateTime?
+  task4       DateTime?
+  task5       DateTime?
+  task6       DateTime?
+  task7       DateTime?
+
+  pendaftaran Pendaftaran @relation(fields: [kodebooking, tanggal], references: [tiketreg, tanggalberobat], onUpdate: Cascade, onDelete: Cascade)
+
+  @@id([kodebooking, tanggal])
+  @@map("Task_Antrian")
+}
