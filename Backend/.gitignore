@@ -4,3 +4,8 @@ node_modules/
 coverage/
 *.log
 .DS_Store
+prisma/migrations/
+
+docs/
+deploy/
+postman/
